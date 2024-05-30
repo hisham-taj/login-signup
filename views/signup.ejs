@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+    <form action="signup" method="post" onsubmit="return validate(event)">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name">
+        <small class="errormsg" id="nameError"></small>
+        <br>
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email">
+        <small class="errormsg" id="emailError"></small>
+        <% if (error) { %>
+              <p style="color:brown;">
+                <%= error.emailError%> 
+              </p>
+        <% } %>
+
+        <br>
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password">
+        <small class="errormsg" id="passError"></small>
+        <% if (error) { %>
+            <p style="color:brown;">
+              <%= error.passError%> 
+            </p>
+      <% } %>
+
+        <br>
+        <label for="password2">Confirm Password</label>
+        <input type="password" id="password2" name="password2">
+        <small class="errormsg" id="pass2Error"></small>
+        <% if (error) { %>
+            <p style="color:brown;">
+              <%= error.pass2Error%> 
+            </p>
+      <% } %>
+        <br>
+        <button type="submit" onsubmit="return validate(event)">Sign up</button>
+        <!-- <button type="submit">Signup</button> -->
+        <a href="/login">Click here for login</a>
+        
+    </form>
+
+    <script>
+        function validate(event) {
+            const username = document.getElementById('name').value;
+            const userError = document.getElementById('nameError');
+
+            const useremail = document.getElementById('email').value;
+            const uemail = document.getElementById('emailError');
+
+            const userpassword = document.getElementById('password').value;
+            const upassword = document.getElementById('passError');
+
+            const userpassword2 = document.getElementById('password2').value;
+            const upassword2 = document.getElementById('pass2Error');
+
+            // username check
+            if (username === "") {
+                userError.innerText = "Username is empty";
+                event.preventDefault();
+            } else if (username.length < 4) {
+                userError.innerText = "Username is too short";
+                event.preventDefault();
+            } else {
+                userError.innerText = "";
+            }
+
+            // email check
+            const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+            if(useremail === ""){
+                uemail.innerText = "E-mail is empty";
+                event.preventDefault();
+            }else if(!emailFormat.test(useremail)){
+                uemail.innerText = "   INVALID format";
+            }else{
+                uemail.innerText = "";
+            };
+
+            // password check
+            const passFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if(userpassword === ""){
+                upassword.innerText = "password is empty";
+                event.preventDefault();
+            }else if(userpassword.length<6){
+                upassword.innerText = " password need atleast 6 characters"
+            }else if(!passFormat.test(userpassword)){
+                upassword.innerText = "password must contain uppercase, lowercase, one digit, and special character";
+                event.preventDefault();
+            } else if (userpassword !== userpassword2) {
+
+                upassword2.innerText = "Passwords do not match";
+                event.preventDefault();
+               
+            } else {
+                upassword.innerText = "";
+                upassword2.innerText = "";
+            }
+            }
+
+
+            // return true; // Form will submit if all validations pass
+    </script>
+</body>
+</html>
